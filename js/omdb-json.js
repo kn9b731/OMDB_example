@@ -1,22 +1,29 @@
 $(document).ready(function(){
+    const site_url = 'http://www.omdbapi.com/';
+
     $("button").click(function(){
-    var bla = $('#m_title').val();
-    $( ".Title" ).remove();
-    $( ".Poster" ).remove();
+      var bla = $('#m_title').val();
+      var str_result =""
+      $( ".Title" ).remove();
+      $( ".Poster" ).remove();
+      console.log(new Date().getTime());
+      //site_url + "?s=" + bla +"&y=&plot=short"
       $.ajax({
-          url: "http://www.omdbapi.com/?s=" + bla +"&y=&plot=short",
+          url: site_url + "?s=" + bla,
           dataType: 'text',
           success:  function (resp) {
             var t = JSON.parse(resp);
             var n = t['Search'];
             for (key in n) {
               if ( n[key]['Poster']!='N/A'){
-                $( "#inner" ).after( "<div class='Title'>"+ n[key]['Title'] + "</div><br>" );
-                $( "#inner" ).after( "<img src='"+ n[key]['Poster'] + "' class='Poster'><br>" );
+                console.log(n[key]['Title']);
+                str_result += "<div class='Title'>"+ n[key]['Title'] + "</div><br>";
+                str_result += "<img hight='300' width='150' src='"+ n[key]['Poster'] + "' class='Poster'><br>";
               }
             }
-            $( "#inner" ).after( "<img src='"+ n[key]['Poster'] + "' class='Poster'><br>" );
+            $( "#inner" ).after(str_result);
           }
       });
+      console.log(new Date().getTime());
     });
 });
